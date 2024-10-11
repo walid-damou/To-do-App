@@ -21,4 +21,4 @@ Cette application mobile de gestion de tâches est développée en Kotlin. Elle 
 
 1. Clonez ce dépôt sur votre machine locale :
    ```bash
-   git clone 
+   git clone https://github.com/walid-damou/To-do-App.git
