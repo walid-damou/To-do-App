@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "618099537897",
+    "project_id": "to-do-app-c75c3",
+    "storage_bucket": "to-do-app-c75c3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618099537897:android:b5d53c00aa6a969862fd78",
+        "android_client_info": {
+          "package_name": "eilco.mobile.To_do"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvKsm33yMSeqiOGG-A7lseWOwZBhtm5JE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
