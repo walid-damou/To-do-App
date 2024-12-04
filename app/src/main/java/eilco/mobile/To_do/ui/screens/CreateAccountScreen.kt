@@ -9,6 +9,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import eilco.mobile.To_do.ui.ThemeViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun CreateAccountScreen(onFinish: () -> Unit,
@@ -19,6 +20,8 @@ fun CreateAccountScreen(onFinish: () -> Unit,
     val password = remember { mutableStateOf("") }
     val confirmPassword = remember { mutableStateOf("") }
 
+    // État pour le message d'erreur ou de succès
+    val message = remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -74,9 +77,34 @@ fun CreateAccountScreen(onFinish: () -> Unit,
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { onFinish() },
+                onClick = {
+                    if (password.value == confirmPassword.value && email.value.isNotEmpty()) {
+                        val auth = FirebaseAuth.getInstance()
+                        auth.createUserWithEmailAndPassword(email.value, password.value)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    message.value = "Account created successfully!"
+                                    // Navigate to login or home screen here
+                                } else {
+                                    message.value = "Error: ${task.exception?.message}"
+                                }
+                            }
+                    } else {
+                        message.value = "Passwords do not match or fields are empty."
+                    }
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Sign Up")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            if (message.value.isNotEmpty()) {
+                Text(
+                    text = message.value,
+                    style = MaterialTheme.typography.body2,
+                    color = MaterialTheme.colors.error,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
             }
         }
     }

@@ -12,6 +12,8 @@ import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.dp
 import eilco.mobile.To_do.R
 import eilco.mobile.To_do.ui.ThemeViewModel
+import com.google.firebase.auth.FirebaseAuth
+
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit,
@@ -51,6 +53,26 @@ fun LoginScreen(onLoginSuccess: () -> Unit,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
+                onClick = {
+                    val emailInput = email.value
+                    val passwordInput = password.value
+                    if (emailInput.isNotEmpty() && passwordInput.isNotEmpty()) {
+                        val auth = FirebaseAuth.getInstance()
+                        auth.signInWithEmailAndPassword(emailInput, passwordInput)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    println("Login successful!")
+                                    // Navigate to next screen or show success message
+                                } else {
+                                    println("Error: ${task.exception?.message}")
+                                    // Show error message to the user
+                                }
+                            }
+                    } else {
+                        println("Email or password cannot be empty.")
+                        // Show error message for empty fields
+                    }
+                },
                 onClick = {
                     val userId = "user7"
                     viewModel.fetchThemeColor(userId) // Fetch theme color dynamically
