@@ -9,7 +9,6 @@ import com.google.accompanist.pager.*
 import eilco.mobile.To_do.ui.screens.CreateAccountScreen
 import eilco.mobile.To_do.ui.screens.LoginScreen
 import eilco.mobile.To_do.ui.screens.OnboardingScreen
-import eilco.mobile.To_do.ui.screens.WelcomeScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -18,17 +17,15 @@ fun AppPager() {
     val pagerState = rememberPagerState()
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // Create the horizontal pager
         HorizontalPager(
-            count = 4, // Number of screens
+            count = 3,
             state = pagerState,
             modifier = Modifier.weight(1f)
         ) { page ->
             when (page) {
-                0 -> OnboardingScreen() // First screen
-                1 -> WelcomeScreen() // Second screen
-                2 -> LoginScreen() // Third screen
-                3 -> CreateAccountScreen() // Fourth screen
+                0 -> OnboardingScreen()
+                1 -> LoginScreen()
+                2 -> CreateAccountScreen()
             }
         }
 

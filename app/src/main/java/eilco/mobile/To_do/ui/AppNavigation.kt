@@ -14,6 +14,5 @@ fun AppNavigation() {
         composable("onboarding") { OnboardingScreen() }
         composable("createAccount") { CreateAccountScreen() }
         composable("login") { LoginScreen() }
-        composable("welcome") { WelcomeScreen() }
     }
 }
