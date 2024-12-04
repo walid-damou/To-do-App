@@ -64,5 +64,5 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.0")
     implementation("com.google.accompanist:accompanist-pager:0.32.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.32.0")
-
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
 }

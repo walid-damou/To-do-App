@@ -10,8 +10,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CreateAccountScreen() {
-    // Manage the state of the text fields
+fun CreateAccountScreen(onFinish: () -> Unit) {
     val firstName = remember { mutableStateOf("") }
     val lastName = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }
@@ -72,7 +71,7 @@ fun CreateAccountScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { /* Handle Sign-Up Logic */ },
+                onClick = { onFinish() },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Sign Up")

@@ -12,8 +12,10 @@ import eilco.mobile.To_do.ui.screens.OnboardingScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun AppPager() {
-    // Create the pager state
+fun AppPager(
+    onLoginSuccess: () -> Unit,
+    onCreateAccount: () -> Unit
+) {
     val pagerState = rememberPagerState()
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -24,12 +26,11 @@ fun AppPager() {
         ) { page ->
             when (page) {
                 0 -> OnboardingScreen()
-                1 -> LoginScreen()
-                2 -> CreateAccountScreen()
+                1 -> LoginScreen(onLoginSuccess = { onLoginSuccess() })
+                2 -> CreateAccountScreen(onFinish = { onCreateAccount() })
             }
         }
 
-        // Add a pager indicator
         HorizontalPagerIndicator(
             pagerState = pagerState,
             modifier = Modifier

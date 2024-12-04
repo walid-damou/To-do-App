@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import eilco.mobile.To_do.R
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLoginSuccess: () -> Unit) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
 
@@ -49,7 +49,7 @@ fun LoginScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { /* Handle Login Logic */ },
+                onClick = { onLoginSuccess() },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Login")
