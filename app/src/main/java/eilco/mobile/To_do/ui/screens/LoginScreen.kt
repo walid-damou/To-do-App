@@ -11,6 +11,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.dp
 import eilco.mobile.To_do.R
+import com.google.firebase.auth.FirebaseAuth
+
 
 @Composable
 fun LoginScreen() {
@@ -49,7 +51,26 @@ fun LoginScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { /* Handle Login Logic */ },
+                onClick = {
+                    val emailInput = email.value
+                    val passwordInput = password.value
+                    if (emailInput.isNotEmpty() && passwordInput.isNotEmpty()) {
+                        val auth = FirebaseAuth.getInstance()
+                        auth.signInWithEmailAndPassword(emailInput, passwordInput)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    println("Login successful!")
+                                    // Navigate to next screen or show success message
+                                } else {
+                                    println("Error: ${task.exception?.message}")
+                                    // Show error message to the user
+                                }
+                            }
+                    } else {
+                        println("Email or password cannot be empty.")
+                        // Show error message for empty fields
+                    }
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Login")
