@@ -1,11 +1,10 @@
-package com.example.todoapp.ui
+package eilco.mobile.To_do.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.todoapp.ui.screens.*
 
 @Composable
 fun AppNavigation() {
