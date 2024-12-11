@@ -1,52 +1,57 @@
 package eilco.mobile.To_do.ui.screens
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.*
-import androidx.compose.ui.text.style.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.material.icons.filled.Flag
 
 @Composable
-fun AddTaskScreen(onTaskAdded: () -> Unit) {
-    Column(
+fun AddTaskScreen(onProceed: () -> Unit) {
+    val taskTitle = remember { mutableStateOf("") }
+    val taskDescription = remember { mutableStateOf("") }
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .background(Color.White)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Update Task Name */ },
-            label = { Text("Task Name") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Update Description */ },
-            label = { Text("Description") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            IconButton(onClick = { /* Open Date Picker */ }) {
-                Icon(Icons.Default.DateRange, contentDescription = "Date Picker")
+            Text(
+                text = "Create Task",
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            OutlinedTextField(
+                value = taskTitle.value,
+                onValueChange = { taskTitle.value = it },
+                label = { Text("Task Title") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = taskDescription.value,
+                onValueChange = { taskDescription.value = it },
+                label = { Text("Task Description") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    onProceed()
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Next")
             }
-            IconButton(onClick = { /* Open Priority Picker */ }) {
-                Icon(Icons.Filled.Flag, contentDescription = "Priority Picker")
-            }
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        Button(
-            onClick = onTaskAdded,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Add Task")
         }
     }
 }

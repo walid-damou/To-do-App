@@ -5,32 +5,42 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.database.FirebaseDatabase
 import eilco.mobile.To_do.ui.AppPager
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(viewModel: ThemeViewModel) {
     val navController: NavHostController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "onboarding") {
-        // Swiping logic for onboarding
         composable("onboarding") {
             AppPager(
-                onLoginSuccess = { navController.navigate("addTask") },
+                onLoginSuccess = { navController.navigate("chooseTheme") },
                 onCreateAccount = { navController.navigate("createAccount") }
             )
         }
-        // Create account flow
         composable("createAccount") {
             CreateAccountScreen(
-                onFinish = { navController.navigate("addTask") }
+                onFinish = { navController.navigate("chooseTheme") }
             )
         }
-        // Add task and other screens
-        composable("addTask") {
-            AddTaskScreen(onTaskAdded = { navController.navigate("chooseTheme") })
-        }
         composable("chooseTheme") {
-            ChooseThemeScreen(onProceed = { navController.navigate("priorityPicker") })
+            ChooseThemeScreen(
+                userId = "user5",
+                viewModel = viewModel,
+                onProceed = { themeColor ->
+                    viewModel.setThemeColor(themeColor)
+                    navController.navigate("addTask")
+                },
+                onSkip = { themeColor ->
+                    viewModel.setThemeColor(themeColor)
+                    navController.navigate("addTask")
+                }
+            )
+        }
+        composable("addTask") {
+            AddTaskScreen(onProceed = { navController.navigate("priorityPicker") })
         }
         composable("priorityPicker") {
             PriorityPickerScreen(onPrioritySelected = { navController.navigate("calendarPicker") })

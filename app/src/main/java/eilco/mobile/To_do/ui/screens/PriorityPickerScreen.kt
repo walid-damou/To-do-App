@@ -13,25 +13,30 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun PriorityPickerScreen(onPrioritySelected: (String) -> Unit) {
-    LazyColumn(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
-        items(listOf("Priority task 1", "Priority task 2", "Priority task 3", "Priority task 4")) { task ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onPrioritySelected(task) }
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(Icons.Default.Star, contentDescription = "Priority Icon")
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = task,
-                    style = MaterialTheme.typography.body1
-                )
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(listOf("Priority task 1", "Priority task 2", "Priority task 3", "Priority task 4")) { task ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onPrioritySelected(task) }
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Default.Star, contentDescription = "Priority Icon")
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = task,
+                        style = MaterialTheme.typography.body1
+                    )
+                }
             }
         }
     }

@@ -40,37 +40,42 @@ fun TimePickerScreen(onTimeSelected: (String) -> Unit) {
     val timeState = remember { mutableStateOf("") }
     val showTimePicker = remember { mutableStateOf(false) }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "Select a Time",
-            style = MaterialTheme.typography.h4,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Text(
-            text = "Selected Time: ${timeState.value}",
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Button(
-            onClick = {
-                showTimePicker.value = true // Trigger the TimePicker to be shown
-            },
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text("Pick Time")
-        }
+            Text(
+                text = "Select a Time",
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            Text(
+                text = "Selected Time: ${timeState.value}",
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            Button(
+                onClick = {
+                    showTimePicker.value = true
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Pick Time")
+            }
 
-        // Show TimePicker when triggered
-        if (showTimePicker.value) {
-            TimePicker(onTimeSelected = { time ->
-                timeState.value = time
-                onTimeSelected(time)
-                showTimePicker.value = false
-            })
+            if (showTimePicker.value) {
+                TimePicker(onTimeSelected = { time ->
+                    timeState.value = time
+                    onTimeSelected(time)
+                    showTimePicker.value = false
+                })
+            }
         }
     }
 }

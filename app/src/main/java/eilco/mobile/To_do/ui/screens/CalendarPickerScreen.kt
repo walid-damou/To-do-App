@@ -12,28 +12,34 @@ import androidx.compose.ui.unit.dp
 fun CalendarPickerScreen(onDateSelected: (String) -> Unit) {
     val calendarState = remember { mutableStateOf("") }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "Select a Date",
-            style = MaterialTheme.typography.h4,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        // Add your calendar view or date picker logic here
-        Text(
-            text = "Selected Date: ${calendarState.value}",
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Button(
-            onClick = { onDateSelected(calendarState.value) },
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text("Select Date")
+            // Title
+            Text(
+                text = "Select a Date",
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            // Selected Date Display
+            Text(
+                text = "Selected Date: ${calendarState.value}",
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            Button(
+                onClick = { onDateSelected(calendarState.value) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Select Date")
+            }
         }
     }
 }

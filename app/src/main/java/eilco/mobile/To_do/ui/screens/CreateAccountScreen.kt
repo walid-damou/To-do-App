@@ -21,7 +21,7 @@ fun CreateAccountScreen(onFinish: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        contentAlignment = Alignment.Center // Center all elements inside the Box
+        contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
