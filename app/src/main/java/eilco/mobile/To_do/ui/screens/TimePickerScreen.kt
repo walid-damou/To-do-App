@@ -10,17 +10,18 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import eilco.mobile.To_do.ui.ThemeViewModel
 import java.util.*
 
 @Composable
 fun TimePicker(
-    onTimeSelected: (String) -> Unit
+    onTimeSelected: (String) -> Unit,
+    viewModel: ThemeViewModel
 ) {
     val context = LocalContext.current
     val calendar = remember { Calendar.getInstance() }
     val timeState = rememberUpdatedState(onTimeSelected)
 
-    // Remember selected time
     val selectedTime = remember { mutableStateOf("") }
 
     TimePickerDialog(
@@ -36,7 +37,7 @@ fun TimePicker(
 }
 
 @Composable
-fun TimePickerScreen(onTimeSelected: (String) -> Unit) {
+fun TimePickerScreen(onTimeSelected: (String) -> Unit, viewModel: ThemeViewModel) {
     val timeState = remember { mutableStateOf("") }
     val showTimePicker = remember { mutableStateOf(false) }
 
@@ -70,11 +71,14 @@ fun TimePickerScreen(onTimeSelected: (String) -> Unit) {
             }
 
             if (showTimePicker.value) {
-                TimePicker(onTimeSelected = { time ->
-                    timeState.value = time
-                    onTimeSelected(time)
-                    showTimePicker.value = false
-                })
+                TimePicker(
+                    onTimeSelected = { time ->
+                        timeState.value = time
+                        onTimeSelected(time)
+                        showTimePicker.value = false
+                    },
+                    viewModel = viewModel
+                )
             }
         }
     }

@@ -7,9 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
-fun CalendarPickerScreen(onDateSelected: (String) -> Unit) {
+fun CalendarPickerScreen(onDateSelected: (String) -> Unit, viewModel: ThemeViewModel) {
     val calendarState = remember { mutableStateOf("") }
 
     Box(

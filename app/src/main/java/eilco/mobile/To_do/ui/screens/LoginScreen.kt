@@ -11,9 +11,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.dp
 import eilco.mobile.To_do.R
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit) {
+fun LoginScreen(onLoginSuccess: () -> Unit,
+                viewModel: ThemeViewModel) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
 
@@ -49,7 +51,11 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { onLoginSuccess() },
+                onClick = {
+                    val userId = "user7"
+                    viewModel.fetchThemeColor(userId) // Fetch theme color dynamically
+                    onLoginSuccess() // Navigate to the next screen
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Login")

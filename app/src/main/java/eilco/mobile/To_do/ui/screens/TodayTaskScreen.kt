@@ -6,9 +6,10 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
-fun TodayTaskScreen(onAddTask: () -> Unit) {
+fun TodayTaskScreen(onAddTask: () -> Unit, viewModel: ThemeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()

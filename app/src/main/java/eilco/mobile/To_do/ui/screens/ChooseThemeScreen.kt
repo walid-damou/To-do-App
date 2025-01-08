@@ -55,7 +55,7 @@ fun ChooseThemeScreen(
 
         userRef.get().addOnSuccessListener { snapshot ->
             val colorName = snapshot.getValue(String::class.java)
-            if (colorName != null) {
+            if (!colorName.isNullOrEmpty()) {
                 val color = when (colorName) {
                     "Green" -> Color(0xFF5CAF54)
                     "Black" -> Color(0xFF000000)

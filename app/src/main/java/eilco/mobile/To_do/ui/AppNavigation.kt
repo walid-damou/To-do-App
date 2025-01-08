@@ -17,17 +17,16 @@ fun AppNavigation(viewModel: ThemeViewModel) {
         composable("onboarding") {
             AppPager(
                 onLoginSuccess = { navController.navigate("chooseTheme") },
-                onCreateAccount = { navController.navigate("createAccount") }
+                onCreateAccount = { navController.navigate("createAccount") },
+                viewModel = viewModel
             )
         }
         composable("createAccount") {
-            CreateAccountScreen(
-                onFinish = { navController.navigate("chooseTheme") }
-            )
+            CreateAccountScreen(viewModel = viewModel, onFinish = { navController.navigate("chooseTheme") })
         }
         composable("chooseTheme") {
             ChooseThemeScreen(
-                userId = "user5",
+                userId = "user7",
                 viewModel = viewModel,
                 onProceed = { themeColor ->
                     viewModel.setThemeColor(themeColor)
@@ -40,16 +39,16 @@ fun AppNavigation(viewModel: ThemeViewModel) {
             )
         }
         composable("addTask") {
-            AddTaskScreen(onProceed = { navController.navigate("priorityPicker") })
+            AddTaskScreen(viewModel = viewModel, onProceed = { navController.navigate("priorityPicker") })
         }
         composable("priorityPicker") {
-            PriorityPickerScreen(onPrioritySelected = { navController.navigate("calendarPicker") })
+            PriorityPickerScreen(viewModel = viewModel, onPrioritySelected = { navController.navigate("calendarPicker") })
         }
         composable("calendarPicker") {
-            CalendarPickerScreen(onDateSelected = { navController.navigate("timePicker") })
+            CalendarPickerScreen(viewModel = viewModel, onDateSelected = { navController.navigate("timePicker") })
         }
         composable("timePicker") {
-            TimePickerScreen(onTimeSelected = { /* Final action */ })
+            TimePickerScreen(viewModel = viewModel, onTimeSelected = { /* Final action */ })
         }
     }
 }

@@ -10,9 +10,10 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
-fun PriorityPickerScreen(onPrioritySelected: (String) -> Unit) {
+fun PriorityPickerScreen(onPrioritySelected: (String) -> Unit, viewModel: ThemeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()

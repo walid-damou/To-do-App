@@ -14,7 +14,8 @@ import eilco.mobile.To_do.ui.screens.OnboardingScreen
 @Composable
 fun AppPager(
     onLoginSuccess: () -> Unit,
-    onCreateAccount: () -> Unit
+    onCreateAccount: () -> Unit,
+    viewModel: ThemeViewModel
 ) {
     val pagerState = rememberPagerState()
 
@@ -26,8 +27,12 @@ fun AppPager(
         ) { page ->
             when (page) {
                 0 -> OnboardingScreen()
-                1 -> LoginScreen(onLoginSuccess = { onLoginSuccess() })
-                2 -> CreateAccountScreen(onFinish = { onCreateAccount() })
+                1 -> LoginScreen(
+                    onLoginSuccess = { onLoginSuccess() },
+                    viewModel = viewModel
+                )
+                2 -> CreateAccountScreen(onFinish = { onCreateAccount() },
+                    viewModel = viewModel)
             }
         }
 

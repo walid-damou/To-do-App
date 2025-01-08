@@ -8,9 +8,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
-fun CreateAccountScreen(onFinish: () -> Unit) {
+fun CreateAccountScreen(onFinish: () -> Unit,
+                        viewModel: ThemeViewModel) {
     val firstName = remember { mutableStateOf("") }
     val lastName = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }

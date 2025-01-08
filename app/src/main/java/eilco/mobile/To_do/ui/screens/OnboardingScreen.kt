@@ -10,6 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.dp
 import eilco.mobile.To_do.R
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
 fun OnboardingScreen() {

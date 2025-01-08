@@ -8,9 +8,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
-fun AddTaskScreen(onProceed: () -> Unit) {
+fun AddTaskScreen(onProceed: () -> Unit, viewModel: ThemeViewModel) {
     val taskTitle = remember { mutableStateOf("") }
     val taskDescription = remember { mutableStateOf("") }
 
@@ -48,6 +49,7 @@ fun AddTaskScreen(onProceed: () -> Unit) {
                 onClick = {
                     onProceed()
                 },
+                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Next")
