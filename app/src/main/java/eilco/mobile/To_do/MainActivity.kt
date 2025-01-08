@@ -3,45 +3,26 @@ package eilco.mobile.To_do
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import eilco.mobile.To_do.ui.theme.To_doTheme
+import androidx.activity.viewModels
+import eilco.mobile.To_do.ui.ThemeViewModel
+import eilco.mobile.To_do.ui.AppTheme
+import eilco.mobile.To_do.ui.screens.AppNavigation
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import eilco.mobile.To_do.ui.AppPager
 
 class MainActivity : ComponentActivity() {
+    private val themeViewModel by viewModels<ThemeViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        FirebaseApp.initializeApp(this)
+
         setContent {
-            To_doTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            val themeColor = themeViewModel.themeColor.value
+            AppTheme(themeColor = themeColor) {
+                AppNavigation(viewModel = themeViewModel)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    To_doTheme {
-        Greeting("Android")
     }
 }
