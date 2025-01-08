@@ -76,7 +76,6 @@ fun CreateAccountScreen(onFinish: () -> Unit,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { onFinish() },
                 onClick = {
                     if (password.value == confirmPassword.value && email.value.isNotEmpty()) {
                         val auth = FirebaseAuth.getInstance()
@@ -84,7 +83,7 @@ fun CreateAccountScreen(onFinish: () -> Unit,
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     message.value = "Account created successfully!"
-                                    // Navigate to login or home screen here
+                                    onFinish()
                                 } else {
                                     message.value = "Error: ${task.exception?.message}"
                                 }

@@ -50,6 +50,7 @@ fun AddTaskScreen(onProceed: () -> Unit, viewModel: ThemeViewModel) {
                     onProceed()
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Next")

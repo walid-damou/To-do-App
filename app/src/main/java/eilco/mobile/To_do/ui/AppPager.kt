@@ -31,8 +31,10 @@ fun AppPager(
                     onLoginSuccess = { onLoginSuccess() },
                     viewModel = viewModel
                 )
-                2 -> CreateAccountScreen(onFinish = { onCreateAccount() },
-                    viewModel = viewModel)
+                2 -> CreateAccountScreen(
+                    onFinish = { onCreateAccount() },
+                    viewModel = viewModel
+                )
             }
         }
 

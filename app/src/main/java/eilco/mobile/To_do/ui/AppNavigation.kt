@@ -17,12 +17,20 @@ fun AppNavigation(viewModel: ThemeViewModel) {
         composable("onboarding") {
             AppPager(
                 onLoginSuccess = { navController.navigate("chooseTheme") },
-                onCreateAccount = { navController.navigate("createAccount") },
+                onCreateAccount = { navController.navigate("login") },
                 viewModel = viewModel
             )
         }
         composable("createAccount") {
-            CreateAccountScreen(viewModel = viewModel, onFinish = { navController.navigate("chooseTheme") })
+            CreateAccountScreen(
+                viewModel = viewModel,
+                onFinish = { navController.navigate("login") })
+        }
+        composable("login") {
+            LoginScreen(
+                onLoginSuccess = { navController.navigate("chooseTheme") },
+                viewModel = viewModel
+            )
         }
         composable("chooseTheme") {
             ChooseThemeScreen(
@@ -31,10 +39,12 @@ fun AppNavigation(viewModel: ThemeViewModel) {
                 onProceed = { themeColor ->
                     viewModel.setThemeColor(themeColor)
                     navController.navigate("addTask")
+                    //CHANGE TO HOME PAGE CENTRALIZING ALL TASKS
                 },
                 onSkip = { themeColor ->
                     viewModel.setThemeColor(themeColor)
                     navController.navigate("addTask")
+                    //CHANGE TO HOME PAGE CENTRALIZING ALL TASKS
                 }
             )
         }
