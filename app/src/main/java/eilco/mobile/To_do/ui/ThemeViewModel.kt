@@ -6,9 +6,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.compose.ui.graphics.Color
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
 
 class ThemeViewModel : ViewModel() {
-    val themeColor: MutableState<Color> = mutableStateOf(Color(0xFF24A19C)) // Default color
+    val themeColor: MutableState<Color> = mutableStateOf(Color(0xFF24A19C))
+    val currentUserId: MutableState<String?> = mutableStateOf(null)
+
+    fun fetchUserId() {
+        val user = FirebaseAuth.getInstance().currentUser
+        currentUserId.value = user?.uid
+    }
 
     fun setThemeColor(color: Color) {
         themeColor.value = color
