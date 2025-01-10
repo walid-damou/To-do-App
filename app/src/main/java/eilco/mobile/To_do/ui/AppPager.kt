@@ -5,10 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.*
 import eilco.mobile.To_do.ui.screens.CreateAccountScreen
 import eilco.mobile.To_do.ui.screens.LoginScreen
+import eilco.mobile.To_do.ui.screens.InboxScreen
 import eilco.mobile.To_do.ui.screens.OnboardingScreen
+import eilco.mobile.To_do.ui.screens.TaskDetailScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -18,7 +21,7 @@ fun AppPager(
     viewModel: ThemeViewModel
 ) {
     val pagerState = rememberPagerState()
-
+    val navController = rememberNavController()
     Column(modifier = Modifier.fillMaxSize()) {
         HorizontalPager(
             count = 3,
@@ -26,7 +29,13 @@ fun AppPager(
             modifier = Modifier.weight(1f)
         ) { page ->
             when (page) {
-                0 -> OnboardingScreen()
+                 0 -> OnboardingScreen()
+
+                /* 0 -> InboxScreen(
+                    navController = navController,
+                    viewModel = viewModel
+                )*/
+                // 0 -> TaskDetailScreen("1", viewModel = viewModel)
                 1 -> LoginScreen(
                     onLoginSuccess = { onLoginSuccess() },
                     viewModel = viewModel

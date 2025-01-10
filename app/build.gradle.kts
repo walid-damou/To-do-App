@@ -69,5 +69,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-database")
     implementation ("com.google.firebase:firebase-auth:22.0.0")
     implementation ("com.google.firebase:firebase-firestore:24.7.0")
+    implementation("com.google.accompanist:accompanist-insets:0.31.5-beta")
+    implementation ("androidx.navigation:navigation-compose:2.8.4")
 
 }
