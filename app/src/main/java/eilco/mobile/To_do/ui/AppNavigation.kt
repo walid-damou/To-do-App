@@ -32,11 +32,6 @@ fun AppNavigation(viewModel: ThemeViewModel) {
                 viewModel = viewModel
             )
         }
-        composable("taskDetail/{taskId}") { backStackEntry ->
-            // Get the task ID from the navigation argument
-            val taskId = backStackEntry.arguments?.getString("taskId")
-            TaskDetailScreen(taskId, viewModel)
-        }
         composable("chooseTheme") {
             ChooseThemeScreen(
                 userId = "user7",

@@ -11,7 +11,6 @@ import eilco.mobile.To_do.ui.screens.CreateAccountScreen
 import eilco.mobile.To_do.ui.screens.LoginScreen
 import eilco.mobile.To_do.ui.screens.InboxScreen
 import eilco.mobile.To_do.ui.screens.OnboardingScreen
-import eilco.mobile.To_do.ui.screens.TaskDetailScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -29,12 +28,11 @@ fun AppPager(
             modifier = Modifier.weight(1f)
         ) { page ->
             when (page) {
-                 0 -> OnboardingScreen()
+                // 0 -> OnboardingScreen()
 
-                /* 0 -> InboxScreen(
-                    navController = navController,
+                0 -> InboxScreen(
                     viewModel = viewModel
-                )*/
+                )
                 // 0 -> TaskDetailScreen("1", viewModel = viewModel)
                 1 -> LoginScreen(
                     onLoginSuccess = { onLoginSuccess() },

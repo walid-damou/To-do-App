@@ -1,5 +1,6 @@
 package eilco.mobile.To_do.ui.screens
 
+import TaskDetailScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.LocalWindowInsets
@@ -27,17 +27,11 @@ import kotlin.random.Random
 
 import eilco.mobile.To_do.R
 import eilco.mobile.To_do.ui.ThemeViewModel
+import eilco.mobile.To_do.ui.screens.*
 
 @Composable
-fun InboxScreen(navController: NavController , viewModel: ThemeViewModel) {
+fun InboxScreen(viewModel: ThemeViewModel) {
     ProvideWindowInsets {
-        val tasks = remember {
-            mutableStateOf(listOf(
-                Task("1","Masyla Website Project", "Priority task 1", "test description", "8:30 PM", 1, 2, "Mon, 19 Jul 2022"),
-                Task("2","Medical Design System", "Priority task 3", "another test description", "8:30 PM", 1, 2, "Mon, 19 Jul 2022")
-            ))
-        }
-
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -70,18 +64,21 @@ fun InboxScreen(navController: NavController , viewModel: ThemeViewModel) {
             }
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
-                LazyColumn {
-                    items(tasks.value) { task ->
-                        TaskItem(navController , task)
+                if (viewModel.selectedTask.value != null) {
+                    TaskDetailScreen(viewModel = viewModel)
+                } else {
+                    LazyColumn {
+                        items(viewModel.tasks) { task ->
+                            TaskItem(task = task, viewModel = viewModel)
+                        }
                     }
                 }
             }
         }
     }
 }
-
 @Composable
-fun TaskItem(navController: NavController, task: Task) {
+fun TaskItem(task: Task, viewModel: ThemeViewModel) {
     val priorityColor = remember { randomColor() }
 
     Card(
@@ -90,7 +87,7 @@ fun TaskItem(navController: NavController, task: Task) {
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth()
-            .clickable { navController.navigate("\"taskDetail/${task.id}") }
+            .clickable { viewModel.selectedTask.value = task }
     ) {
         Column {
             Row(
@@ -148,7 +145,8 @@ fun TaskItem(navController: NavController, task: Task) {
                 Text(
                     task.time,
                     fontSize = 14.sp,
-                    modifier = Modifier.padding(start = 4.dp)
+                    modifier = Modifier.padding(start = 4.dp),
+                    style = MaterialTheme.typography.body2
                 )
                 Spacer(Modifier.weight(0.05f))
                 Icon(
