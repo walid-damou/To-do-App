@@ -1,10 +1,13 @@
 package eilco.mobile.To_do.ui.screens
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -61,7 +64,7 @@ fun ChooseThemeScreen(
                     "Black" -> Color(0xFF000000)
                     "Red" -> Color(0xFFFF4C4C)
                     "Blue" -> Color(0xFF4A90E2)
-                    else -> Color.Gray
+                    else -> Color(0xFFE7ECF5)
                 }
                 isLoading.value = false
                 onSkip(color)
@@ -89,39 +92,19 @@ fun ChooseThemeScreen(
             Text(
                 text = "Choose Your Theme",
                 style = MaterialTheme.typography.h4,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 10.dp)
             )
-            LazyColumn(modifier = Modifier.weight(1f)) {
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 items(colorThemes) { theme ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .clickable { selectedTheme.value = theme },
-                        backgroundColor = theme.second,
-                        elevation = if (selectedTheme.value == theme) 8.dp else 4.dp
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            if (selectedTheme.value == theme) {
-                                Icon(
-                                    imageVector = Icons.Default.CheckCircle,
-                                    contentDescription = "Selected Theme",
-                                    tint = Color.White,
-                                    modifier = Modifier.padding(end = 8.dp)
-                                )
-                            }
-                            Text(
-                                text = theme.first,
-                                color = Color.White,
-                                style = MaterialTheme.typography.body1
-                            )
-                        }
-                    }
+                    ThemeCard(
+                        themeName = theme.first,
+                        themeColor = theme.second,
+                        isSelected = selectedTheme.value == theme,
+                        onClick = { selectedTheme.value = theme }
+                    )
                 }
             }
             Button(
@@ -140,16 +123,102 @@ fun ChooseThemeScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
+                    .padding(top = 10.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = selectedTheme.value.second
                 )
             ) {
                 Text(
-                    text="Open To-DoPro",
+                    text = "Open To-DoPro",
                     color = Color.White
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun ThemeCard(
+    themeName: String,
+    themeColor: Color,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .width(327.dp)
+            .height(100.dp)
+            .padding(8.dp)
+            .clickable { onClick() }
+    ) {
+        Card(
+            elevation = 4.dp,
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width(44.dp)
+                        .fillMaxHeight()
+                        .background(themeColor)
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .background(Color(0xFFE7ECF5), shape = CircleShape)
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    // Three Rows for Text Placeholder
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .height(8.dp)
+                                .background(Color(0xFFE7ECF5), shape = MaterialTheme.shapes.small)
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(0.6f)
+                                .height(8.dp)
+                                .background(Color(0xFFE7ECF5), shape = MaterialTheme.shapes.small)
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f)
+                                .height(8.dp)
+                                .background(Color(0xFFE7ECF5), shape = MaterialTheme.shapes.small)
+                        )
+                    }
+                }
+            }
+        }
+
+        if (isSelected) {
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = "Selected Theme",
+                tint = themeColor,
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.TopStart)
+                    .offset(x = -16.dp, y = -16.dp)
+            )
         }
     }
 }

@@ -1,7 +1,6 @@
-
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -11,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.insets.*
 import eilco.mobile.To_do.R
 import eilco.mobile.To_do.ui.ThemeViewModel
 import eilco.mobile.To_do.ui.screens.Task
@@ -23,9 +21,9 @@ fun TaskDetailScreen(viewModel: ThemeViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 50.dp)  // Increase top padding
+                .padding(top = 50.dp)
+                .verticalScroll(rememberScrollState()) // Allow scrolling if content overflows
         ) {
-            //Text("Detail Task", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -35,7 +33,7 @@ fun TaskDetailScreen(viewModel: ThemeViewModel) {
                 Text(
                     "Detail Task",
                     style = MaterialTheme.typography.h6,
-                    modifier = Modifier.weight(1f)  // Makes the text take up the maximum space
+                    modifier = Modifier.weight(1f)
                 )
                 IconButton(
                     onClick = { viewModel.selectedTask.value = null },
@@ -63,9 +61,7 @@ fun TaskDetailView(task: Task) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(task.title, style = MaterialTheme.typography.h5)
         Text(task.description, style = MaterialTheme.typography.body1)
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 Icons.Filled.Schedule,
                 contentDescription = "Time",
@@ -79,10 +75,17 @@ fun TaskDetailView(task: Task) {
             )
         }
 
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Icon(Icons.Filled.Favorite, contentDescription = "Like", modifier = Modifier.padding(4.dp))
             Icon(Icons.Filled.Share, contentDescription = "Share", modifier = Modifier.padding(4.dp))
-            Icon(painterResource(id = R.drawable.ic_priority),modifier = Modifier.size(30.dp), contentDescription = "Comment")
+            Icon(
+                painterResource(id = R.drawable.ic_priority),
+                modifier = Modifier.size(30.dp),
+                contentDescription = "Priority"
+            )
             Icon(Icons.Filled.MoreVert, contentDescription = "More", modifier = Modifier.padding(4.dp))
         }
     }
@@ -90,17 +93,42 @@ fun TaskDetailView(task: Task) {
 
 @Composable
 fun TextInput() {
-    Column {
-        var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf("") }
+    var submittedText by remember { mutableStateOf<String?>(null) }
 
+    Column(modifier = Modifier.padding(16.dp)) {
         TextField(
             value = text,
             onValueChange = { text = it },
-            label = { Text("") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+            label = { Text("Enter details") },
+            modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Button(
+            onClick = {
+                if (text.isNotBlank()) {
+                    submittedText = text
+                    text = "" // Clear input field after submission
+                }
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Submit")
+        }
+
+        submittedText?.let {
+            Spacer(modifier = Modifier.height(16.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                elevation = 4.dp
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text("User Input:", style = MaterialTheme.typography.h6)
+                    Text(it, style = MaterialTheme.typography.body1)
+                }
+            }
+        }
     }
 }
-

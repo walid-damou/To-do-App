@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.database.FirebaseDatabase
 import eilco.mobile.To_do.ui.AppPager
 import eilco.mobile.To_do.ui.ThemeViewModel
 
@@ -24,7 +23,8 @@ fun AppNavigation(viewModel: ThemeViewModel) {
         composable("createAccount") {
             CreateAccountScreen(
                 viewModel = viewModel,
-                onFinish = { navController.navigate("login") })
+                onFinish = { navController.navigate("login") }
+            )
         }
         composable("login") {
             LoginScreen(
@@ -33,32 +33,49 @@ fun AppNavigation(viewModel: ThemeViewModel) {
             )
         }
         composable("chooseTheme") {
+            val userId = viewModel.currentUserId.value
             ChooseThemeScreen(
-                userId = "user7",
+                userId = userId ?: "unknown_user",
                 viewModel = viewModel,
                 onProceed = { themeColor ->
                     viewModel.setThemeColor(themeColor)
-                    navController.navigate("addTask")
-                    //CHANGE TO HOME PAGE CENTRALIZING ALL TASKS
+                    navController.navigate("inbox")
                 },
                 onSkip = { themeColor ->
                     viewModel.setThemeColor(themeColor)
-                    navController.navigate("addTask")
-                    //CHANGE TO HOME PAGE CENTRALIZING ALL TASKS
+                    navController.navigate("inbox")
                 }
             )
         }
-        composable("addTask") {
-            AddTaskScreen(viewModel = viewModel, onProceed = { navController.navigate("priorityPicker") })
+        composable("inbox") {
+            InboxScreen(
+                viewModel = viewModel
+            )
+        }
+
+        /*composable("addTask") {
+            AddTaskScreen(
+                viewModel = viewModel,
+                onProceed = { navController.navigate("priorityPicker") }
+            )
         }
         composable("priorityPicker") {
-            PriorityPickerScreen(viewModel = viewModel, onPrioritySelected = { navController.navigate("calendarPicker") })
+            PriorityPickerScreen(
+                viewModel = viewModel,
+                onPrioritySelected = { navController.navigate("calendarPicker") }
+            )
         }
         composable("calendarPicker") {
-            CalendarPickerScreen(viewModel = viewModel, onDateSelected = { navController.navigate("timePicker") })
+            CalendarPickerScreen(
+                viewModel = viewModel,
+                onDateSelected = { navController.navigate("timePicker") }
+            )
         }
         composable("timePicker") {
-            TimePickerScreen(viewModel = viewModel, onTimeSelected = { /* Final action */ })
-        }
+            TimePickerScreen(
+                viewModel = viewModel,
+                onTimeSelected = { /* Final action */ }
+            )
+        }*/
     }
 }

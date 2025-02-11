@@ -6,12 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.*
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
-import eilco.mobile.To_do.R
 import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
@@ -63,20 +61,21 @@ fun LoginScreen(
                         val emailInput = email.value.trim()
                         val passwordInput = password.value.trim()
 
-                        if (emailInput.isNotEmpty() && passwordInput.isNotEmpty()) {
-                            isLoading.value = true
+                        if (email.value.isNotEmpty() && password.value.isNotEmpty()) {
                             val auth = FirebaseAuth.getInstance()
-
-                            auth.signInWithEmailAndPassword(emailInput, passwordInput)
+                            auth.signInWithEmailAndPassword(email.value, password.value)
                                 .addOnCompleteListener { task ->
-                                    isLoading.value = false
                                     if (task.isSuccessful) {
-                                        val userId = task.result?.user?.uid ?: "unknown_user"
-                                        viewModel.fetchThemeColor(userId)
-                                        onLoginSuccess()
+                                        val userId = FirebaseAuth.getInstance().currentUser?.uid
+                                        if (userId != null) {
+                                            viewModel.fetchUserId()
+                                            viewModel.fetchThemeColor(userId)
+                                            onLoginSuccess()
+                                        } else {
+                                            errorMessage.value = "Failed to retrieve user ID."
+                                        }
                                     } else {
-                                        errorMessage.value =
-                                            task.exception?.message ?: "Login failed."
+                                        errorMessage.value = task.exception?.message ?: "Failed to login."
                                     }
                                 }
                         } else {
@@ -99,31 +98,6 @@ fun LoginScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "or continue with",
-                    style = MaterialTheme.typography.body2,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    IconButton(onClick = { /* Handle Facebook Login */ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.facebook),
-                            contentDescription = "Facebook Login"
-                        )
-                    }
-                    IconButton(onClick = { /* Handle Google Login */ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.google),
-                            contentDescription = "Google Login"
-                        )
-                    }
-                }
             }
         }
     }

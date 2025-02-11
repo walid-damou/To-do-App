@@ -28,11 +28,11 @@ fun AppPager(
             modifier = Modifier.weight(1f)
         ) { page ->
             when (page) {
-                // 0 -> OnboardingScreen()
+                0 -> OnboardingScreen()
 
-                0 -> InboxScreen(
+                /*0 -> InboxScreen(
                     viewModel = viewModel
-                )
+                )*/
                 // 0 -> TaskDetailScreen("1", viewModel = viewModel)
                 1 -> LoginScreen(
                     onLoginSuccess = { onLoginSuccess() },
