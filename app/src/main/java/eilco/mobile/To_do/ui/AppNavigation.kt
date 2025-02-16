@@ -1,12 +1,17 @@
-package eilco.mobile.To_do.ui.screens
+package eilco.mobile.To_do.ui
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import eilco.mobile.To_do.ui.AppPager
-import eilco.mobile.To_do.ui.ThemeViewModel
+import eilco.mobile.To_do.ui.screens.AddTaskScreen
+import eilco.mobile.To_do.ui.screens.CalendarPickerScreen
+import eilco.mobile.To_do.ui.screens.ChooseThemeScreen
+import eilco.mobile.To_do.ui.screens.CreateAccountScreen
+import eilco.mobile.To_do.ui.screens.LoginScreen
+import eilco.mobile.To_do.ui.screens.PriorityPickerScreen
+import eilco.mobile.To_do.ui.screens.TimePickerScreen
 
 @Composable
 fun AppNavigation(viewModel: ThemeViewModel) {
@@ -68,7 +73,7 @@ fun AppNavigation(viewModel: ThemeViewModel) {
         composable("timePicker") {
             TimePickerScreen(
                 viewModel = viewModel,
-                onTimeSelected = { /* Final action */ }
+                onTimeSelected = { navController.navigate("taskAdded") }
             )
         }
     }

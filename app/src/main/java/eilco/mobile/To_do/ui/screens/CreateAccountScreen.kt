@@ -1,16 +1,15 @@
 package eilco.mobile.To_do.ui.screens
 
+import android.util.Patterns
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import eilco.mobile.To_do.ui.ThemeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
 fun CreateAccountScreen(
@@ -83,7 +82,13 @@ fun CreateAccountScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        if (password.value == confirmPassword.value && email.value.isNotEmpty()) {
+                        if (!Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
+                            message.value = "Please enter a valid email address."
+                        } else if (password.value != confirmPassword.value) {
+                            message.value = "Passwords do not match."
+                        } else if (password.value.length < 6) {
+                            message.value = "Password must be at least 6 characters."
+                        } else {
                             isLoading.value = true
                             val auth = FirebaseAuth.getInstance()
                             auth.createUserWithEmailAndPassword(email.value.trim(), password.value.trim())
@@ -115,8 +120,6 @@ fun CreateAccountScreen(
                                         isLoading.value = false
                                     }
                                 }
-                        } else {
-                            message.value = "Passwords do not match or fields are empty."
                         }
                     },
                     modifier = Modifier.fillMaxWidth()

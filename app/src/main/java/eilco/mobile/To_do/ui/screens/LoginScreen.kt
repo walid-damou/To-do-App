@@ -2,9 +2,7 @@ package eilco.mobile.To_do.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.*
@@ -97,7 +95,6 @@ fun LoginScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-
             }
         }
     }

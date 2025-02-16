@@ -3,43 +3,34 @@ package eilco.mobile.To_do.ui.screens
 import android.app.TimePickerDialog
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import eilco.mobile.To_do.ui.ThemeViewModel
 import java.util.*
 
 @Composable
-fun TimePicker(
-    onTimeSelected: (String) -> Unit,
-    viewModel: ThemeViewModel
-) {
-    val context = LocalContext.current
-    val calendar = remember { Calendar.getInstance() }
-    val timeState = rememberUpdatedState(onTimeSelected)
-
-    val selectedTime = remember { mutableStateOf("") }
-
-    TimePickerDialog(
-        context,
-        { _, hour: Int, minute: Int ->
-            selectedTime.value = String.format("%02d:%02d", hour, minute)
-            timeState.value(selectedTime.value) // Pass the selected time
-        },
-        calendar.get(Calendar.HOUR_OF_DAY),
-        calendar.get(Calendar.MINUTE),
-        true
-    ).show()
-}
-
-@Composable
 fun TimePickerScreen(onTimeSelected: (String) -> Unit, viewModel: ThemeViewModel) {
     val timeState = remember { mutableStateOf("") }
     val showTimePicker = remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    fun openTimePickerDialog() {
+        TimePickerDialog(
+            context,
+            { _, hour: Int, minute: Int ->
+                val formattedTime = String.format("%02d:%02d", hour, minute)
+                timeState.value = formattedTime
+                onTimeSelected(formattedTime)
+            },
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        ).show()
+    }
 
     Box(
         modifier = Modifier
@@ -62,23 +53,15 @@ fun TimePickerScreen(onTimeSelected: (String) -> Unit, viewModel: ThemeViewModel
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Button(
-                onClick = {
-                    showTimePicker.value = true
-                },
-                modifier = Modifier.fillMaxWidth()
+                onClick = { openTimePickerDialog() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = viewModel.themeColor.value)
             ) {
-                Text("Pick Time")
-            }
-
-            if (showTimePicker.value) {
-                TimePicker(
-                    onTimeSelected = { time ->
-                        timeState.value = time
-                        onTimeSelected(time)
-                        showTimePicker.value = false
-                    },
-                    viewModel = viewModel
-                )
+                Text("Pick Time",
+                    style = MaterialTheme.typography.button.copy(color = Color.White))
             }
         }
     }
