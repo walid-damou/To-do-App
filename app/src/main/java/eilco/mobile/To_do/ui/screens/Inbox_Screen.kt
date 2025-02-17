@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.LocalWindowInsets
@@ -36,7 +37,7 @@ import eilco.mobile.To_do.ui.ThemeViewModel
 import eilco.mobile.To_do.ui.screens.*
 
 @Composable
-fun InboxScreen(viewModel: ThemeViewModel) {
+fun InboxScreen(viewModel: ThemeViewModel, navController: NavController) {
 
     val userId = FirebaseAuth.getInstance().currentUser?.uid
     // Ensure userId is not null
@@ -109,7 +110,10 @@ fun InboxScreen(viewModel: ThemeViewModel) {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { /* Handle add task */ }) {
+                FloatingActionButton(
+                    onClick = { navController.navigate("addTask") },
+                    modifier = Modifier.padding(bottom = 64.dp)
+                ) {
                     Icon(Icons.Filled.Add, contentDescription = "Add Task")
                 }
             }

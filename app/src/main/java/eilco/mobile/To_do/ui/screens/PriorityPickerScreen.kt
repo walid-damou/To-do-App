@@ -12,10 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
-fun PriorityPickerScreen(onPrioritySelected: (String) -> Unit, viewModel: ThemeViewModel) {
+fun PriorityPickerScreen(navController: NavController, viewModel: ThemeViewModel) {
     val taskList = listOf("Very High", "High", "Medium", "Low")
     val selectedPriority = remember { mutableStateOf<String?>(null) }
 
@@ -44,7 +45,16 @@ fun PriorityPickerScreen(onPrioritySelected: (String) -> Unit, viewModel: ThemeV
                                 modifier = Modifier
                                     .clickable {
                                         selectedPriority.value = task
-                                        onPrioritySelected(task)
+
+                                        // ✅ Update selected task in ViewModel
+                                        val selectedTask = viewModel.selectedTask.value
+                                        if (selectedTask != null) {
+                                            val updatedTask = selectedTask.copy(priorityLabel = task)
+                                            viewModel.setSelectedTask(updatedTask) // Update ViewModel
+                                        }
+
+                                        // ✅ Navigate to CalendarPickerScreen
+                                        navController.navigate("calendarPicker")
                                     }
                                     .size(150.dp)
                                     .padding(8.dp),
