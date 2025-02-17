@@ -24,6 +24,10 @@ class ThemeViewModel : ViewModel() {
         themeColor.value = color
     }
 
+    fun setSelectedTask(task: Task) {
+        selectedTask.value = task
+    }
+
     fun fetchThemeColor(userId: String) {
         val database = FirebaseDatabase.getInstance()
         val userRef = database.getReference("users/$userId/theme")
