@@ -1,10 +1,12 @@
 package eilco.mobile.To_do.ui
 
+import androidx.compose.runtime.Composable
+import com.google.accompanist.pager.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun AppTheme(
     themeColor: Color,

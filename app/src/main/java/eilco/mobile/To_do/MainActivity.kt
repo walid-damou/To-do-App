@@ -6,10 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import eilco.mobile.To_do.ui.ThemeViewModel
 import eilco.mobile.To_do.ui.AppTheme
-import eilco.mobile.To_do.ui.screens.AppNavigation
-import com.google.firebase.Firebase
+import eilco.mobile.To_do.ui.AppNavigation
 import com.google.firebase.FirebaseApp
-import eilco.mobile.To_do.ui.AppPager
 
 class MainActivity : ComponentActivity() {
     private val themeViewModel by viewModels<ThemeViewModel>()

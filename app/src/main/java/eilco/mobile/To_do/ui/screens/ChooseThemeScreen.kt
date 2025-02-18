@@ -11,10 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -59,13 +56,7 @@ fun ChooseThemeScreen(
         userRef.get().addOnSuccessListener { snapshot ->
             val colorName = snapshot.getValue(String::class.java)
             if (!colorName.isNullOrEmpty()) {
-                val color = when (colorName) {
-                    "Green" -> Color(0xFF5CAF54)
-                    "Black" -> Color(0xFF000000)
-                    "Red" -> Color(0xFFFF4C4C)
-                    "Blue" -> Color(0xFF4A90E2)
-                    else -> Color(0xFFE7ECF5)
-                }
+                val color = colorThemes.find { it.first == colorName }?.second ?: Color(0xFFE7ECF5)
                 isLoading.value = false
                 onSkip(color)
             } else {
@@ -92,7 +83,7 @@ fun ChooseThemeScreen(
             Text(
                 text = "Choose Your Theme",
                 style = MaterialTheme.typography.h4,
-                modifier = Modifier.padding(bottom = 10.dp)
+                modifier = Modifier.padding(top = 40.dp, bottom = 12.dp)
             )
             LazyColumn(
                 contentPadding = PaddingValues(vertical = 8.dp),
@@ -180,31 +171,6 @@ fun ThemeCard(
                     )
 
                     Spacer(modifier = Modifier.width(16.dp))
-
-                    // Three Rows for Text Placeholder
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(0.8f)
-                                .height(8.dp)
-                                .background(Color(0xFFE7ECF5), shape = MaterialTheme.shapes.small)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(0.6f)
-                                .height(8.dp)
-                                .background(Color(0xFFE7ECF5), shape = MaterialTheme.shapes.small)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(0.4f)
-                                .height(8.dp)
-                                .background(Color(0xFFE7ECF5), shape = MaterialTheme.shapes.small)
-                        )
-                    }
                 }
             }
         }

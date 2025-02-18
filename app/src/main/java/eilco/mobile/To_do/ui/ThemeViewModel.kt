@@ -6,10 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.compose.ui.graphics.Color
 import com.google.firebase.database.FirebaseDatabase
+import eilco.mobile.To_do.ui.screens.Task
 import com.google.firebase.auth.FirebaseAuth
 
 class ThemeViewModel : ViewModel() {
-    val themeColor: MutableState<Color> = mutableStateOf(Color(0xFF24A19C))
+    val themeColor: MutableState<Color> = mutableStateOf(Color(0xFF24A19C)) // Default color
+
+    var selectedTask: MutableState<Task?> = mutableStateOf(null)
     val currentUserId: MutableState<String?> = mutableStateOf(null)
 
     fun fetchUserId() {
@@ -19,6 +22,10 @@ class ThemeViewModel : ViewModel() {
 
     fun setThemeColor(color: Color) {
         themeColor.value = color
+    }
+
+    fun setSelectedTask(task: Task) {
+        selectedTask.value = task
     }
 
     fun fetchThemeColor(userId: String) {

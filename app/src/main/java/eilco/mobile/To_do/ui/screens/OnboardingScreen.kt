@@ -3,12 +3,15 @@ package eilco.mobile.To_do.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.google.firebase.auth.FirebaseAuth
 import eilco.mobile.To_do.R
 import eilco.mobile.To_do.ui.ThemeViewModel
 
@@ -33,7 +36,7 @@ fun OnboardingScreen() {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "To-DoPro",
-                style = MaterialTheme.typography.h4,
+                style = MaterialTheme.typography.h4.copy(fontSize = 28.sp),
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -41,7 +44,8 @@ fun OnboardingScreen() {
                 text = "The best to-do list application for you",
                 style = MaterialTheme.typography.body1,
                 color = Color.White,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 32.dp)
             )
             Spacer(modifier = Modifier.height(32.dp))
         }
