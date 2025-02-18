@@ -11,6 +11,7 @@ import eilco.mobile.To_do.ui.screens.CreateAccountScreen
 import eilco.mobile.To_do.ui.screens.LoginScreen
 import eilco.mobile.To_do.ui.screens.InboxScreen
 import androidx.navigation.NavHostController
+import eilco.mobile.To_do.ui.screens.OnboardingScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -29,10 +30,11 @@ fun AppPager(
             modifier = Modifier.weight(1f)
         ) { page ->
             when (page) {
-                0 -> InboxScreen(
+                /*0 -> InboxScreen(
                     viewModel = viewModel,
                     navController = navController
-                )
+                )*/
+                0 -> OnboardingScreen()
                 1 -> LoginScreen(
                     onLoginSuccess = { onLoginSuccess() },
                     viewModel = viewModel

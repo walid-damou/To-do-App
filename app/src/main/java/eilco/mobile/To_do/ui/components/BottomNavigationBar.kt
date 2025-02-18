@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import eilco.mobile.To_do.ui.theme.AppTheme
 import androidx.compose.material.icons.Icons
@@ -26,7 +27,7 @@ fun BottomNavigationBar(navController: NavController) {
         backgroundColor = Color.White,
         contentColor = AppTheme.colors.primary,
         elevation = 8.dp,
-        modifier = Modifier.height(56.dp)
+        modifier = Modifier.height(56.dp).padding(bottom = 16.dp)
     ) {
         val currentRoute = navController.currentDestination?.route
         items.forEach { item ->
