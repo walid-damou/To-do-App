@@ -8,6 +8,7 @@ import eilco.mobile.To_do.ui.ThemeViewModel
 import eilco.mobile.To_do.ui.AppTheme
 import eilco.mobile.To_do.ui.AppNavigation
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     private val themeViewModel by viewModels<ThemeViewModel>()
@@ -17,9 +18,10 @@ class MainActivity : ComponentActivity() {
         FirebaseApp.initializeApp(this)
 
         setContent {
+            val isUserLoggedIn = FirebaseAuth.getInstance().currentUser != null
             val themeColor = themeViewModel.themeColor.value
             AppTheme(themeColor = themeColor) {
-                AppNavigation(viewModel = themeViewModel)
+                AppNavigation(viewModel = themeViewModel, isUserLoggedIn = isUserLoggedIn)
             }
         }
     }

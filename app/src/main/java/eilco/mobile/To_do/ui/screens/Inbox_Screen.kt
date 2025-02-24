@@ -106,7 +106,7 @@ fun InboxScreen(viewModel: ThemeViewModel, navController: NavController) {
                             )
                         }
                     },
-                    modifier = Modifier.padding(top = rememberInsetsPaddingValues(insets = LocalWindowInsets.current.statusBars).calculateTopPadding())
+                    modifier = Modifier.padding(top = 5.dp)
                 )
             },
             floatingActionButton = {

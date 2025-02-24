@@ -7,13 +7,19 @@ import androidx.compose.ui.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+
 import com.google.firebase.auth.FirebaseAuth
 import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
-    viewModel: ThemeViewModel
+    viewModel: ThemeViewModel,
+    navController: NavController
 ) {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -35,7 +41,7 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Welcome Back!",
+                    text = "Welcome Back",
                     style = MaterialTheme.typography.h4,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
@@ -95,6 +101,18 @@ fun LoginScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Don't have an account? Sign Up",
+                    modifier = Modifier.clickable { navController.navigate("createAccount") },
+                    style = MaterialTheme.typography.body2.copy(
+                        color = MaterialTheme.colors.primary,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
             }
         }
     }

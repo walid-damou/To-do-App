@@ -8,13 +8,19 @@ import androidx.compose.ui.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+
 import com.google.firebase.database.FirebaseDatabase
 import eilco.mobile.To_do.ui.ThemeViewModel
 
 @Composable
 fun CreateAccountScreen(
     onFinish: () -> Unit,
-    viewModel: ThemeViewModel
+    viewModel: ThemeViewModel,
+    navController: NavController
 ) {
     val firstName = remember { mutableStateOf("") }
     val lastName = remember { mutableStateOf("") }
@@ -127,6 +133,7 @@ fun CreateAccountScreen(
                     Text("Sign Up")
                 }
                 Spacer(modifier = Modifier.height(8.dp))
+
                 if (message.value.isNotEmpty()) {
                     Text(
                         text = message.value,
@@ -135,6 +142,18 @@ fun CreateAccountScreen(
                         modifier = Modifier.padding(top = 8.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Already have an account? Log In",
+                    modifier = Modifier.clickable { navController.navigate("login") },
+                    style = MaterialTheme.typography.body2.copy(
+                        color = MaterialTheme.colors.primary,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
             }
         }
     }

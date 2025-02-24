@@ -114,7 +114,7 @@ fun ChooseThemeScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp),
+                    .padding(top = 10.dp, bottom = 50.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = selectedTheme.value.second
                 )

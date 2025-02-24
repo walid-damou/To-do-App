@@ -19,7 +19,6 @@ fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
         BottomNavItem("inbox", Icons.Filled.Home, "Home"),
         BottomNavItem("notifications", Icons.Filled.Notifications, "Notifications"),
-        BottomNavItem("calendar", Icons.Filled.DateRange, "Calendar"),
         BottomNavItem("profile", Icons.Filled.Person, "Profile")
     )
 

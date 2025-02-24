@@ -32,18 +32,26 @@ import eilco.mobile.To_do.R
 @Composable
 fun ProfileScreen(navController: NavController, viewModel: ThemeViewModel) {
     var isDarkMode by remember { mutableStateOf(false) }
-    //val userId = FirebaseAuth.getInstance().currentUser
-    val userId = "sDwGJyMV9fWTyCxtUJx5zfwa48w2"
-    if (userId == null) {
-        // Handle user not logged in, e.g., navigate to login screen or show error.
-        Text("User not logged in")
-        return
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
+    var hasNavigated by remember { mutableStateOf(false) }
+
+    // Navigate to login only once if the user is logged out
+    LaunchedEffect(userId) {
+        if (userId == null && !hasNavigated) {
+            hasNavigated = true
+            navController.navigate("login") {
+                popUpTo("profile") { inclusive = true } // Clear back stack
+            }
+        }
     }
+
+    if (userId == null) return
+
     var firstName by remember { mutableStateOf("Loading...") }
     var lastName by remember { mutableStateOf("Loading...") }
     var email by remember { mutableStateOf("Loading...") }
     var profileImageUrl by remember { mutableStateOf<String?>(null) }
-    // Fetch user data from Firebase Database
+
     LaunchedEffect(userId) {
         val userData = FirebaseDatabase.getInstance()
             .getReference("users")
@@ -53,7 +61,7 @@ fun ProfileScreen(navController: NavController, viewModel: ThemeViewModel) {
                 if (snapshot.exists()) {
                     firstName = snapshot.child("firstName").getValue(String::class.java) ?: "No Name"
                     lastName = snapshot.child("lastName").getValue(String::class.java) ?: "No Name"
-                    email = snapshot.child("email").getValue(String::class.java) ?: "No Name"
+                    email = snapshot.child("email").getValue(String::class.java) ?: "No Email"
                     profileImageUrl = snapshot.child("profilePicture").getValue(String::class.java)
                 }
             }
@@ -63,15 +71,14 @@ fun ProfileScreen(navController: NavController, viewModel: ThemeViewModel) {
             }
         })
     }
+
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        //Text("Profile", style = MaterialTheme.typography.h4)
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
                 .padding(16.dp)
         ) {
-            // Top Bar
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -82,14 +89,8 @@ fun ProfileScreen(navController: NavController, viewModel: ThemeViewModel) {
                 Spacer(modifier = Modifier.weight(1f))
                 Text("Settings", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { /* Search action */ }) {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
-                }
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Profile Section
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -102,31 +103,17 @@ fun ProfileScreen(navController: NavController, viewModel: ThemeViewModel) {
                             .size(80.dp)
                             .clip(CircleShape)
                     )
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = "Edit",
-                        modifier = Modifier
-                            .size(24.dp)
-                            .align(Alignment.BottomEnd)
-                            .background(Color.White, shape = CircleShape)
-                            .padding(4.dp)
-                    )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text("$firstName $lastName", fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 Text(email, fontSize = 14.sp, color = Color.Gray)
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Settings List
             Column {
-                SettingsItem(Icons.Default.Person, "Account") { }
-                SettingsItem(Icons.Default.Palette, "Theme") { }
-                SettingsItem(Icons.Default.Apps, "App Icon") { }
-                SettingsItem(Icons.Default.Work, "Productivity") { }
-
-                // Change Mode with Toggle
+                SettingsItem(Icons.Default.Person, "Account") {}
+                SettingsItem(Icons.Default.Palette, "Theme") {}
+                SettingsItem(Icons.Default.Apps, "App Icon") {}
+                SettingsItem(Icons.Default.Work, "Productivity") {}
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -137,21 +124,20 @@ fun ProfileScreen(navController: NavController, viewModel: ThemeViewModel) {
                     Icon(imageVector = Icons.Default.Brightness6, contentDescription = "Mode")
                     Spacer(modifier = Modifier.width(16.dp))
                     Text("Change Mode", fontSize = 16.sp, modifier = Modifier.weight(1f))
-                    Switch(
-                        checked = isDarkMode,
-                        onCheckedChange = { isDarkMode = it }
-                    )
+                    Switch(checked = isDarkMode, onCheckedChange = { isDarkMode = it })
                 }
-
                 Divider()
-
-                SettingsItem(Icons.Default.PrivacyTip, "Privacy Policy") { }
-                SettingsItem(Icons.Default.Help, "Help Center") { }
-                SettingsItem(Icons.Default.ExitToApp, "Log Out") { }
+                SettingsItem(Icons.Default.PrivacyTip, "Privacy Policy") {}
+                SettingsItem(Icons.Default.Help, "Help Center") {}
+                SettingsItem(Icons.Default.ExitToApp, "Log Out") {
+                    FirebaseAuth.getInstance().signOut()
+                    navController.navigate("login")
+                }
             }
         }
     }
 }
+
 @Composable
 fun SettingsItem(icon: ImageVector, title: String, onClick: () -> Unit) {
     Row(
@@ -168,12 +154,3 @@ fun SettingsItem(icon: ImageVector, title: String, onClick: () -> Unit) {
     }
     Divider()
 }
-
-
-
-
-
-
-
-
-
