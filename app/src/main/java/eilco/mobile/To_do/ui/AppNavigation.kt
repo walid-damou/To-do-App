@@ -1,5 +1,6 @@
 package eilco.mobile.To_do.ui
 
+import AccountScreen
 import NotificationScreen
 import android.annotation.SuppressLint
 import androidx.compose.material.*
@@ -121,6 +122,9 @@ fun AppNavigation(viewModel: ThemeViewModel, isUserLoggedIn: Boolean) {
                     navController = navController,
                     scaffoldState = scaffoldState
                 )
+            }
+            composable("account") {
+                AccountScreen(navController = navController)
             }
         }
     }

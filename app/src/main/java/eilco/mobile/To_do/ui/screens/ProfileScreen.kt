@@ -110,8 +110,12 @@ fun ProfileScreen(navController: NavController, viewModel: ThemeViewModel) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             Column {
-                SettingsItem(Icons.Default.Person, "Account") {}
-                SettingsItem(Icons.Default.Palette, "Theme") {}
+                SettingsItem(Icons.Default.Person, "Account") {
+                    navController.navigate("account")
+                }
+                SettingsItem(Icons.Default.Palette, "Theme") {
+                    navController.navigate("chooseTheme")
+                }
                 SettingsItem(Icons.Default.Apps, "App Icon") {}
                 SettingsItem(Icons.Default.Work, "Productivity") {}
                 Row(
