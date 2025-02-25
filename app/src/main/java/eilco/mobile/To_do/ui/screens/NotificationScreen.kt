@@ -4,10 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +33,6 @@ fun NotificationScreen(navController: NavController, viewModel: ThemeViewModel) 
     val notifications = remember { mutableStateListOf<NotificationItem>() }
     val isLoading = remember { mutableStateOf(true) }
 
-    // Fetch tasks dynamically
     LaunchedEffect(Unit) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userId = currentUser?.uid ?: "unknown_user"
@@ -42,7 +43,6 @@ fun NotificationScreen(navController: NavController, viewModel: ThemeViewModel) 
             isLoading.value = false
         }
     }
-
 
     Scaffold(
         topBar = {
@@ -58,8 +58,20 @@ fun NotificationScreen(navController: NavController, viewModel: ThemeViewModel) 
                 CircularProgressIndicator()
             }
         } else if (notifications.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No notifications at the moment.")
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(
+                        painter = painterResource(id = android.R.drawable.ic_dialog_info),
+                        contentDescription = "No Notifications",
+                        modifier = Modifier.size(64.dp),
+                        tint = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("No notifications at the moment.", color = Color.Gray)
+                }
             }
         } else {
             LazyColumn(
@@ -82,8 +94,9 @@ fun NotificationCard(notification: NotificationItem) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp),
-        elevation = 4.dp,
-        backgroundColor = Color.White
+        elevation = 6.dp,
+        shape = RoundedCornerShape(16.dp),
+        backgroundColor = Color(0xFFF5F5F5)
     ) {
         Column(
             modifier = Modifier
@@ -93,24 +106,35 @@ fun NotificationCard(notification: NotificationItem) {
             Text(
                 text = notification.title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = notification.message,
-                fontSize = 14.sp,
-                color = Color.Gray
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF2C3E50)
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = notification.time,
-                fontSize = 12.sp,
-                color = Color.LightGray
+                text = notification.message,
+                fontSize = 14.sp,
+                color = Color(0xFF34495E)
             )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = android.R.drawable.ic_menu_my_calendar),
+                    contentDescription = "Due Date",
+                    tint = Color(0xFF2980B9),
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = notification.time,
+                    fontSize = 12.sp,
+                    color = Color(0xFF7F8C8D)
+                )
+            }
         }
     }
 }
-
 // Function to fetch tasks from Firebase due in 24 hours
 fun fetchUpcomingTasks(userId: String, onResult: (List<NotificationItem>) -> Unit) {
     // Get the Firebase Database reference for the user's tasks

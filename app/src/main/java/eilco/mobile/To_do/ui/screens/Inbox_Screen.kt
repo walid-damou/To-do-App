@@ -89,11 +89,14 @@ fun InboxScreen(viewModel: ThemeViewModel, navController: NavController) {
                 TopAppBar(
                     title = { Text("Home") },
                     navigationIcon = {
-                        IconButton(onClick = { /* Handle back navigation */ }) {
+                        IconButton(onClick = {
+                            //Navigate to the previous screen
+                            navController.popBackStack()
+                        }) {
                             Icon(
-                                painterResource(id = R.drawable.ic_launcher_foreground),
+                                painterResource(id = R.drawable.ic_app_logo),
                                 contentDescription = "Back",
-                                modifier = Modifier.size(30.dp),
+                                modifier = Modifier.size(20.dp),
                             )
                         }
                     },
@@ -101,12 +104,11 @@ fun InboxScreen(viewModel: ThemeViewModel, navController: NavController) {
                         IconButton(onClick = { /* Handle search action */ }) {
                             Icon(
                                 painterResource(id = R.drawable.ic_search),
-                                modifier = Modifier.size(30.dp),
+                                modifier = Modifier.size(20.dp),
                                 contentDescription = "Search"
                             )
                         }
-                    },
-                    modifier = Modifier.padding(top = 5.dp)
+                    }
                 )
             },
             floatingActionButton = {
@@ -136,30 +138,38 @@ fun InboxScreen(viewModel: ThemeViewModel, navController: NavController) {
         }
     }
 }
+
 @Composable
 fun TaskItem(task: Task, viewModel: ThemeViewModel) {
-    val priorityColor = remember { randomColor() }
+    // Define colors based on priority
+    val priorityColor = when (task.priorityLabel.lowercase()) {
+        "high" -> Color(0xFFFF6B6B) // Red
+        "medium" -> Color(0xFFFFC107) // Amber
+        "low" -> Color(0xFF81C784) // Green
+        else -> Color.LightGray // Default
+    }
 
     Card(
-        shape = RoundedCornerShape(10.dp),
-        elevation = 2.dp,
+        shape = RoundedCornerShape(12.dp),
+        elevation = 6.dp,
         modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .padding(horizontal = 12.dp, vertical = 8.dp)
             .fillMaxWidth()
             .clickable { viewModel.selectedTask.value = task }
     ) {
         Column {
+            // Priority Label Section
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .background(color = priorityColor)
+                    .background(priorityColor)
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 Icon(
-                    painterResource(id = R.drawable.ic_priority), // Ensure this drawable resource exists
-                    contentDescription = "Priority Flag",
-                    tint = MaterialTheme.colors.onSurface,
+                    painterResource(id = R.drawable.ic_priority),
+                    contentDescription = "Priority",
+                    tint = Color.White,
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -167,51 +177,43 @@ fun TaskItem(task: Task, viewModel: ThemeViewModel) {
                     text = task.priorityLabel,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
-                    modifier = Modifier.weight(1f)
-                )
-                Icon(
-                    Icons.Filled.MoreVert,
-                    contentDescription = "More options",
-                    modifier = Modifier.size(24.dp)
+                    color = Color.White
                 )
             }
 
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+            // Task Title Section
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
             ) {
-
                 Text(
-                    task.title,
-                    fontSize = 21.sp,
-                    modifier = Modifier.padding(start = 4.dp)
+                    text = task.title,
+                    style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
                 )
-
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = task.description,
+                    style = MaterialTheme.typography.body2.copy(color = Color.DarkGray)
+                )
             }
+
+            // Time and Date Section
             Row(
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    Icons.Filled.Schedule,
-                    contentDescription = "Time",
-                    modifier = Modifier.size(20.dp)
-                )
+                Icon(Icons.Filled.Schedule, contentDescription = "Time", modifier = Modifier.size(20.dp))
                 Text(
                     task.time,
                     fontSize = 14.sp,
-                    modifier = Modifier.padding(start = 4.dp),
-                    style = MaterialTheme.typography.body2
+                    modifier = Modifier.padding(start = 8.dp)
                 )
-                Spacer(Modifier.weight(0.05f))
-                Icon(
-                    Icons.Filled.Comment,
-                    contentDescription = "comment",
-                    modifier = Modifier.size(20.dp)
+                Spacer(Modifier.weight(1f))
+                Icon(Icons.Filled.Comment, contentDescription = "Comments", modifier = Modifier.size(20.dp))
+                Text(
+                    "${task.comments}",
+                    modifier = Modifier.padding(start = 4.dp)
                 )
                 Spacer(Modifier.weight(1f))
                 Text(
@@ -219,9 +221,7 @@ fun TaskItem(task: Task, viewModel: ThemeViewModel) {
                     fontSize = 12.sp,
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
                 )
-
             }
-
         }
     }
 }
